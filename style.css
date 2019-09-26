@@ -47,9 +47,7 @@ table {
     border-spacing: 0;
 }
 
-.hide {
-    display: none;
-}
+
 
 .game {
     height: 100vh;
@@ -83,6 +81,9 @@ table {
 }
 
 .start {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     position: absolute;
     left: 0;
     top: 0;
@@ -95,6 +96,12 @@ table {
     padding: 2rem 0;
     cursor: pointer;
     font-family: sans-serif;
+}
+
+.start > div {
+    margin: 0 10px;
+    border: 2px solid whitesmoke;
+    padding: 6px;
 }
 
 .score {
@@ -110,5 +117,9 @@ table {
     text-align: center;
     font-family: sans-serif;
     font-weight: 500;
+}
+
+.hide {
+    display: none;
 }
 
