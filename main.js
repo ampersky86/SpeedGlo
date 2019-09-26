@@ -31,6 +31,10 @@ function getQuantityElements(heightElement) {
 
 function startGame() {
     start.classList.add('hide');
+    gameArea.innerHTML = '';
+    car.style.left = '125px';
+    car.style.top = 'auto';
+    car.style.bottom = '10px';
     for (let i=0; i < getQuantityElements(100); i++) {
         const line = document.createElement('div');
         line.classList.add('line');
@@ -44,7 +48,7 @@ function startGame() {
         let num = Math.floor(Math.random() * (3 - 1) + 1);
         enemy.classList.add('enemy');
         enemy.y = -100 * settings.traffic * (i + 1);
-        enemy.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - car.offsetWidth))+ 'px';
+        enemy.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - 50))+ 'px';
         enemy.style.top = enemy.y + 'px';
         enemy.style.background = `transparent url("./image/enemy${num}.png") center / cover no-repeat`;
         gameArea.appendChild(enemy);
@@ -61,6 +65,8 @@ function playGame() {
     moveRoad();
     moveEnemy();
     if (settings.start) {
+        settings.score += settings.speed;
+        score.innerHTML = 'SCORE:<br>' + settings.score;
         if (keys.ArrowLeft && settings.x > 0) {
             settings.x -= settings.speed;
         }
@@ -107,11 +113,19 @@ function moveRoad() {
 function moveEnemy() {
     let enemys = document.querySelectorAll('.enemy');
     enemys.forEach((enemy) => {
+        let carRect = car.getBoundingClientRect();
+        let enemyRect = enemy.getBoundingClientRect();
+        if(carRect.top <= enemyRect.bottom && carRect.right >= enemyRect.left &&
+        carRect.left <= enemyRect.right && carRect.bottom >= enemyRect.top) {
+            settings.start = false;
+            start.classList.remove('hide');
+            start.style.top = score.offsetHeight + 'px';
+        }
         enemy.y += settings.speed;
         enemy.style.top = enemy.y + 'px';
         if (enemy.y >= document.documentElement.clientHeight) {
             enemy.y = -100 *settings.traffic;
-            enemy.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - car.offsetWidth))+ 'px';
+            enemy.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - 50))+ 'px';
         }
     });
 
